@@ -1,0 +1,62 @@
+version: '3'
+services:
+  # app:
+  #   container_name: alia-backend
+  #   restart: always
+  #   build: .
+  #   ports:
+  #     - "3002:$PORT"
+  #   env_file:
+  #     - .env
+  #   links:
+  #     - postgres
+  #   networks:
+  #     - my-blog
+
+  postgres:
+    image: postgres:16.3
+    container_name: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
+    env_file:
+      - .env
+    networks:
+      - my-blog
+
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - my-blog
+
+  tracing:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+      - 14250:14250
+      - 14268:14268
+      - 14269:14269
+      - 9411:9411
+    networks:
+      - my-blog
+
+volumes:
+  postgres:
+    driver: local
+
+networks:
+  my-blog:
+    driver: bridge
