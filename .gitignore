@@ -72,16 +72,19 @@ gen
 dist
 mongo
 
-
 # Docker compose ganarated files
 db-data
-
 
 # Vuepress
 .temp
 .cache
 .DS_Store
 
-
 # Local History
 .history
+init-data.sh
+
+# Vscode
+.vscode
+
+tsconfig.build.tsbuildinfo
