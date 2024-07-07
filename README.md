@@ -73,3 +73,7 @@ This project includes a `docs` folder with more details on:
 1.  [Setup and development](docs/development.md)
 1.  [Architecture](docs/architecture.md)
 1.  [Naming Cheatsheet](docs/naming-cheatsheet.md)
+2.  
+
+## Thanks you
+https://narhakobyan.github.io/awesome-nest-boilerplate/
