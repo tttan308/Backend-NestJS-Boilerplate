@@ -1,31 +1,17 @@
 version: '3'
 services:
-  # app:
-  #   container_name: alia-backend
-  #   restart: always
-  #   build: .
-  #   ports:
-  #     - "3002:$PORT"
-  #   env_file:
-  #     - .env
-  #   links:
-  #     - postgres
-  #   networks:
-  #     - my-blog
 
   postgres:
     image: postgres:16.3
-    container_name: postgres
     restart: always
     ports:
       - '5432:5432'
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ./init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
     env_file:
       - .env
     networks:
-      - my-blog
+      - emoti-rise
 
   adminer:
     image: adminer:4.8.1
@@ -35,7 +21,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - my-blog
+      - emoti-rise
 
   tracing:
     image: jaegertracing/all-in-one:latest
@@ -51,12 +37,12 @@ services:
       - 14269:14269
       - 9411:9411
     networks:
-      - my-blog
+      - emoti-rise
 
 volumes:
   postgres:
     driver: local
 
 networks:
-  my-blog:
+  emoti-rise:
     driver: bridge

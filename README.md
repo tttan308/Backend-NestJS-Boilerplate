@@ -1,18 +1,14 @@
 
-# My Blog Backend
-
-[![Awesome NestJS](https://img.shields.io/badge/Awesome-NestJS-blue.svg?longCache=true&style=flat-square)](https://github.com/juliandavidmr/awesome-nestjs)
-
-> This is an ever-evolving, very opinionated architecture and dev environment for new node projects using [NestJS](https://nestjs.com). Questions, feedback, and for now, even bikeshedding are welcome. 😄
+# EmotiRise Backend
 
 ## Getting started
 
 ```bash
 # 1. Clone the repository.
-git clone git@github.com:tttan308/Blog-Backend.git
+git clone git@github.com:EmotiRise/emoti-rise-be.git
 
-# 2. Enter your Blog-Backend folder.
-cd Blog-Backend
+# 2. Enter your emoti-rise-be folder.
+cd emoti-rise-be
 
 # 3. Create Environment variables file.
 cp .env.example .env
@@ -75,5 +71,5 @@ This project includes a `docs` folder with more details on:
 1.  [Naming Cheatsheet](docs/naming-cheatsheet.md)
 2.  
 
-## Thanks you
+## References
 https://narhakobyan.github.io/awesome-nest-boilerplate/

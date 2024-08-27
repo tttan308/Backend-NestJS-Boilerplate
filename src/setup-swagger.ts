@@ -1,5 +1,6 @@
 import { type INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import expressBasicAuth from 'express-basic-auth';
 
 export function setupSwagger(app: INestApplication): void {
   const documentBuilder = new DocumentBuilder()
@@ -52,6 +53,19 @@ Routes is following REST standard (Richardson level 3)
 
   if (process.env.API_VERSION) {
     documentBuilder.setVersion(process.env.API_VERSION);
+  }
+
+  if (process.env.NODE_ENV !== 'development') {
+    app.use(
+      ['/documentation', '/documentation-json'],
+      expressBasicAuth({
+        challenge: true,
+        users: {
+          [process.env.SWAGGER_USER ?? 'boilerplate']:
+            process.env.SWAGGER_PASSWORD ?? 'boilerplate',
+        },
+      }),
+    );
   }
 
   const document = SwaggerModule.createDocument(app, documentBuilder.build());
