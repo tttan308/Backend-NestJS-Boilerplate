@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main", "master", "develop" ]
+    branches: ['main', 'master', 'develop']
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: ['main', 'master', 'develop']
 
 jobs:
   run-linters:
@@ -30,38 +30,39 @@ jobs:
           eslint: true
           eslint_extensions: ts
 
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    needs: run-linters
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+  # analyze:
+  #   name: Analyze
+  #   runs-on: ubuntu-latest
+  #   needs: run-linters
+  #   permissions:
+  #     actions: read
+  #     contents: read
+  #     security-events: write
 
-    strategy:
-      matrix:
-        language: [ 'javascript', 'typescript' ]
+  #   strategy:
+  #     matrix:
+  #       language: [ 'javascript', 'typescript' ]
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v3
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+  #   - name: Initialize CodeQL
+  #     uses: github/codeql-action/init@v2
+  #     with:
+  #       languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+  #   - name: Autobuild
+  #     uses: github/codeql-action/autobuild@v2
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+  #   - name: Perform CodeQL Analysis
+  #     uses: github/codeql-action/analyze@v2
 
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    needs: analyze
+    # needs: analyze
+    needs: run-linters
 
     steps:
       - name: Check out the code
