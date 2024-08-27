@@ -27,7 +27,7 @@ import { SharedModule } from './shared/shared.module';
 
 export async function bootstrap(): Promise<NestExpressApplication> {
   // initTelemetry({
-  //     appName: process.env.OPEN_TELEMETRY_APP_NAME || "my-blog",
+  //     appName: process.env.OPEN_TELEMETRY_APP_NAME || "boilerplate",
   //     telemetryUrl: process.env.OPEN_TELEMETRY_URL || "http://localhost:4318/v1/metrics",
   // });
 
