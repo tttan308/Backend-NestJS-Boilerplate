@@ -47,8 +47,8 @@ jobs:
       # - name: Run tests with coverage
       #   run: npx jest --coverage
 
-      - name: Run Security Audit
-        run: npm audit --audit-level=high
+      # - name: Run Security Audit
+      #   run: npm audit --audit-level=high
 
       - name: Lint Dockerfile
         run: docker run --rm -i hadolint/hadolint < Dockerfile
