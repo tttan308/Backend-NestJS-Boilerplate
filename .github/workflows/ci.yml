@@ -13,12 +13,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3  
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20  # Sử dụng Node.js 20
+          node-version: 20 # Sử dụng Node.js 20
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
@@ -48,10 +48,10 @@ jobs:
 
     steps:
       - name: Check out the code
-        uses: actions/checkout@v3  
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2  
+        uses: docker/setup-buildx-action@v2
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -71,10 +71,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.lower_tag.outputs.tag }}
+          tags: ${{ env.tag }}
 
       - name: Run Docker container for health check
-        run: docker run --rm ${{ steps.lower_tag.outputs.tag }} npm run health-check
+        run: docker run --rm ${{ env.tag }} npm run health-check
 
       - name: Logout from GitHub Container Registry
         run: docker logout ghcr.io
