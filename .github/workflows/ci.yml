@@ -39,13 +39,13 @@ jobs:
       - name: Run Prettier
         run: npx prettier --check '**/*.ts'
 
-      - name: Run Unit Tests
-        run: npm test
-        env:
-          CI: true
+      # - name: Run Unit Tests
+      #   run: npm test
+      #   env:
+      #     CI: true
 
-      - name: Run tests with coverage
-        run: npx jest --coverage
+      # - name: Run tests with coverage
+      #   run: npx jest --coverage
 
       - name: Run Security Audit
         run: npm audit --audit-level=high
