@@ -4,9 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Inject,
-  Query,
   Req,
-  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -22,7 +20,7 @@ import {
   handleErrorSpan,
   handleOkSpan,
 } from '../../../common/span-handler';
-import { PublicRoute } from '../../../decorators';
+import { PublicRoute, UUIDParam } from '../../../decorators';
 import { IUserService } from '../services/user.service';
 
 const tracer = trace.getTracer('user-module');
@@ -35,21 +33,18 @@ export class UserController {
     private readonly userService: IUserService,
   ) {}
 
-  @Get()
+  @Get('/:userId')
   @PublicRoute(true)
   @ApiOperation({ summary: 'Get user by id' })
   @ApiOkResponse({ description: 'User found' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   @HttpCode(HttpStatus.OK)
-  getUser(
-    @Query('id', new ValidationPipe({ transform: true })) id: string,
-    @Req() req: Request,
-  ) {
+  getUser(@UUIDParam('userId') id: string, @Req() req: Request) {
     const span = createSpan('Get User by Id', req.url, req.method, tracer);
     span.setAttribute('data', JSON.stringify(id));
 
     try {
-      const user = this.userService.getUser(id);
+      const user = this.userService.getUserById(id);
 
       handleOkSpan(span);
       span.setAttribute('result', JSON.stringify(user));

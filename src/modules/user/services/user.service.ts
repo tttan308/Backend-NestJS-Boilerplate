@@ -4,7 +4,7 @@ import { UserDto } from '../domains/dtos/responses/user.dto';
 import { UserRepository } from '../repository/user.repository';
 
 export interface IUserService {
-  getUser(userId: string): Promise<UserDto>;
+  getUserById(userId: string): Promise<UserDto>;
 }
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UserService implements IUserService {
     this.logger = new Logger(UserService.name);
   }
 
-  async getUser(userId: string): Promise<UserDto> {
+  async getUserById(userId: string): Promise<UserDto> {
     try {
       const user = await this.userRepository.findUserById(userId);
 
@@ -26,7 +26,9 @@ export class UserService implements IUserService {
         throw new NotFoundException(`User with id ${userId} not found`);
       }
 
-      return user.toDto();
+      const userDto = new UserDto(user);
+
+      return userDto;
     } catch (error) {
       this.logger.error(error);
 
