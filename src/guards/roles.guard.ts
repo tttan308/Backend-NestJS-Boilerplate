@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core';
 import _ from 'lodash';
 
 import { type RoleType } from '../constants';
-import { type UserEntity } from '../modules/user/user.entity';
+import { type UserEntity } from '../modules/user/domains/entities/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

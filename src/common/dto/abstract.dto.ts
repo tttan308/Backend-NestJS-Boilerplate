@@ -1,14 +1,9 @@
-import {
-  DateField,
-  DYNAMIC_TRANSLATION_DECORATOR_KEY,
-  UUIDField,
-} from '../../decorators';
-import { ContextProvider } from '../../providers';
+import { DateField, StringField } from '../../decorators';
 import { type AbstractEntity } from '../abstract.entity';
 
 export class AbstractDto {
-  @UUIDField()
-  id!: Uuid;
+  @StringField({ example: '50ffe1ea-ed4c-4062-a404-38645b95360d' })
+  id!: string;
 
   @DateField()
   createdAt!: Date;
@@ -16,41 +11,36 @@ export class AbstractDto {
   @DateField()
   updatedAt!: Date;
 
-  translations?: AbstractTranslationDto[];
+  @DateField({ nullable: true })
+  deletedAt?: Date;
+
+  @StringField({
+    nullable: true,
+    example: 'a152a073-c6fe-4ef4-a774-2fb9fd125487',
+  })
+  deletedBy?: string;
+
+  @StringField({
+    nullable: true,
+    example: 'a152a073-c6fe-4ef4-a774-2fb9fd125487',
+  })
+  createdBy?: string;
+
+  @StringField({
+    nullable: true,
+    example: 'a152a073-c6fe-4ef4-a774-2fb9fd125487',
+  })
+  updatedBy?: string;
 
   constructor(entity: AbstractEntity, options?: { excludeFields?: boolean }) {
     if (!options?.excludeFields) {
       this.id = entity.id;
       this.createdAt = entity.createdAt;
       this.updatedAt = entity.updatedAt;
-    }
-
-    const languageCode = ContextProvider.getLanguage();
-
-    if (languageCode && entity.translations) {
-      const translationEntity = entity.translations.find(
-        (titleTranslation) => titleTranslation.languageCode === languageCode,
-      )!;
-
-      const fields: Record<string, string> = {};
-
-      for (const key of Object.keys(translationEntity)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const metadata = Reflect.getMetadata(
-          DYNAMIC_TRANSLATION_DECORATOR_KEY,
-          this,
-          key,
-        );
-
-        if (metadata) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          fields[key] = translationEntity[key];
-        }
-      }
-
-      Object.assign(this, fields);
-    } else {
-      this.translations = entity.translations?.toDtos();
+      this.deletedAt = entity.deletedAt;
+      this.deletedBy = entity.deletedBy;
+      this.createdBy = entity.createdBy;
+      this.updatedBy = entity.updatedBy;
     }
   }
 }

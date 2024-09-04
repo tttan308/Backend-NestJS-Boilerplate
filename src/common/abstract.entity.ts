@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,10 +26,11 @@ export abstract class AbstractEntity<
   O = never,
 > {
   @PrimaryGeneratedColumn('uuid')
-  id!: Uuid;
+  id!: string;
 
   @CreateDateColumn({
     type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt!: Date;
 
@@ -36,6 +38,21 @@ export abstract class AbstractEntity<
     type: 'timestamp',
   })
   updatedAt!: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamp',
+    nullable: true,
+  })
+  deletedAt?: Date;
+
+  @Column({ nullable: true })
+  deletedBy?: string;
+
+  @Column({ nullable: true })
+  createdBy?: string;
+
+  @Column({ nullable: true })
+  updatedBy?: string;
 
   translations?: AbstractTranslationEntity[];
 
