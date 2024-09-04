@@ -35,7 +35,7 @@ export class UserController {
     private readonly userService: IUserService,
   ) {}
 
-  @Get(':id')
+  @Get()
   @PublicRoute(true)
   @ApiOperation({ summary: 'Get user by id' })
   @ApiOkResponse({ description: 'User found' })
