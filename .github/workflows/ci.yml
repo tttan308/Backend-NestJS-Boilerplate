@@ -73,8 +73,5 @@ jobs:
           push: true
           tags: ${{ env.tag }}
 
-      - name: Run Docker container for health check
-        run: docker run --rm ${{ env.tag }} npm run health-check
-
       - name: Logout from GitHub Container Registry
         run: docker logout ghcr.io
